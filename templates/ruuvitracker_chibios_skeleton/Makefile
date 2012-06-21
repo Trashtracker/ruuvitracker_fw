@@ -54,7 +54,8 @@ endif
 PROJECT = ruuvitracker-chibios
 
 # Imported source files
-CHIBIOS = /home/teemu/stm32/eclipse_workspace/ver_2.4.0
+//CHIBIOS = /home/teemu/stm32/eclipse_workspace/ver_2.4.0
+CHIBIOS = C:/Ohjelmia/ChibiOS_2.4.0
 
 # Define linker script file here
 LDSCRIPT= $(PORTLD)/STM32F103xE.ld
