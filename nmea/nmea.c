@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// GPGGA viestin kentät
+// GPGGA viestin kentï¿½t
 static char GGAFixTaken[10];
 static char GGALatitude[9];
 static char GGALatitudeNS[2];
@@ -18,7 +18,7 @@ static char GGAHeightOfGeoidUnit[2];
 static char GGALastDGPSUpdate[5];
 static char GGADGPSStationID[5];
 
-// GPRMC viestin kentät
+// GPRMC viestin kentï¿½t
 static char RMCFixTaken[10];
 static char RMCStatus[2];							// Status A=active or V=Void.
 static char RMCLatitude[9];
@@ -41,8 +41,8 @@ int blockcpy(char* dest, const char* srce, int len) {
 }
 
 // NMEA parseri
-// Syötteenä merkkijonon osoite ja pituus.
-// esim. yhden merkin syöttö: vNMEAParser(&merkki, 1);
+// Syï¿½tteenï¿½ merkkijonon osoite ja pituus.
+// esim. yhden merkin syï¿½ttï¿½: vNMEAParser(&merkki, 1);
 void vNMEAParser(const char* Chr, int Len) {
 	static unsigned int Index=0;
 	static unsigned char Checksum;
@@ -52,26 +52,26 @@ void vNMEAParser(const char* Chr, int Len) {
 	static int Commas;
 
 	while (Len--) {
-		if (*Chr=='$') {				// Paketti alkaa '$' merkistä
+		if (*Chr=='$') {				// Paketti alkaa '$' merkistï¿½
 			Index=1;
 			Checksum=0;
 			ChecksumCount = 0;
 			Commas = 0;
 		}
-		else if (Index) {				// Paketin vastaanotto meneillään
-			if (ChecksumCount) {		// Tarkistussumman vastanotto meneillään
+		else if (Index) {				// Paketin vastaanotto meneillï¿½ï¿½n
+			if (ChecksumCount) {		// Tarkistussumman vastanotto meneillï¿½ï¿½n
 				if (ChecksumCount==1) {
-					RCDChecksum = (*Chr&0xc0?(*Chr&0x07)+10:*Chr-'0')<<4;
+					RCDChecksum = (*Chr&0xc0?(*Chr&0x07)+9:*Chr-'0')<<4;
 					ChecksumCount++;
 				}
-				else {					// Tarkistussumman toinen merkki, senjälkeen voikin purkaa paketin
-					RCDChecksum |= (*Chr&0xc0?(*Chr&0x7)+10:*Chr-'0')&0x0f;
+				else {					// Tarkistussumman toinen merkki, senjï¿½lkeen voikin purkaa paketin
+					RCDChecksum |= (*Chr&0xc0?(*Chr&0x7)+9:*Chr-'0')&0x0f;
 					if (RCDChecksum==Checksum) {
 						if (!strcmp ( NMEAMessage, "GPGGA")) {	 // GPGGA
 							if (Commas==14) {
 								char* ind = NMEAMessage;
 								ind += strlen(ind)+1;
-								// Muteksi päälle?
+								// Muteksi pï¿½ï¿½lle?
 								ind += blockcpy(GGAFixTaken, ind, sizeof(GGAFixTaken));
 								ind += blockcpy(GGALatitude, ind,  sizeof(GGALatitude));
 								ind += blockcpy(GGALatitudeNS, ind, sizeof(GGALatitudeNS));
@@ -93,7 +93,7 @@ void vNMEAParser(const char* Chr, int Len) {
 							if (Commas==11) {
 								char* ind = NMEAMessage;
 								ind += strlen(ind)+1;
-								// Muteksi päälle?
+								// Muteksi pï¿½ï¿½lle?
 								ind += blockcpy(RMCFixTaken, ind, sizeof(RMCFixTaken));
 								ind += blockcpy(RMCStatus, ind, sizeof(RMCStatus));
 								ind += blockcpy(RMCLatitude, ind, sizeof(RMCLatitude));
@@ -112,7 +112,7 @@ void vNMEAParser(const char* Chr, int Len) {
 					Index=0;
 				}
 			}
-			else if (*Chr=='*') {	 	// Paketti loppuu, vastaanotetaan vielä tarkistussumma.
+			else if (*Chr=='*') {	 	// Paketti loppuu, vastaanotetaan vielï¿½ tarkistussumma.
 				NMEAMessage[Index-1]=0;
 				ChecksumCount++;
 			}
@@ -125,7 +125,7 @@ void vNMEAParser(const char* Chr, int Len) {
 					else NMEAMessage[Index++-1]=*Chr;
 					Checksum ^= *Chr;
 				}
-				else Index=0;		// Liian pitkä, ei mahdu taulukkoon
+				else Index=0;		// Liian pitkï¿½, ei mahdu taulukkoon
 			}
 		}
 		Chr++;
